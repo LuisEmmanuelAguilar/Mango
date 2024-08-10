@@ -67,8 +67,8 @@ namespace Mango.Services.CouponAPI.Controllers
             try
             {
                 Coupon obj = _db.Coupons.First(u => u.CouponCode.ToLower() == code.ToLower());
-                
-                if(obj == null)
+
+                if (obj == null)
                 {
                     _response.IsSuccess = false;
                 }
@@ -125,6 +125,7 @@ namespace Mango.Services.CouponAPI.Controllers
         }
 
         [HttpDelete]
+        [Route("{id:int}")]
         public ResponseDto DeleteCoupon(int id)
         {
             try
