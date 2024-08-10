@@ -12,17 +12,17 @@ namespace Mango.Web.Service
             _baseService = baseService;
         }
 
-        public async Task<ResponseDto?> CreateCuoponAsync(CouponDto cuoponDto)
+        public async Task<ResponseDto?> CreateCouponAsync(CouponDto couponDto)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = StandardDetails.ApiType.POST,
-                Data = cuoponDto,
+                Data = couponDto,
                 Url = StandardDetails.CouponAPIBase + "/api/coupon"
             });
         }
 
-        public async Task<ResponseDto?> DeleteCuoponAsync(int id)
+        public async Task<ResponseDto?> DeleteCouponAsync(int id)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
@@ -58,13 +58,13 @@ namespace Mango.Web.Service
             });
         }
 
-        public async Task<ResponseDto?> UpdateCuoponAsync(CouponDto cuoponDto)
+        public async Task<ResponseDto?> UpdateCouponAsync(CouponDto couponDto)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = StandardDetails.ApiType.PUT,
-                Data = cuoponDto,
-                Url = StandardDetails.CouponAPIBase + "/api/cuopon"
+                Data = couponDto,
+                Url = StandardDetails.CouponAPIBase + "/api/coupon"
             });
         }
     }
