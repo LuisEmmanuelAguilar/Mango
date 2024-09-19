@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Services.AuthAPI", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Services.ProductAPI", "Mango.Services.ProductAPI\Mango.Services.ProductAPI.csproj", "{E5FEDEF7-5E15-4F46-B19F-EB22D5E95118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.MessageBus", "Mango.MessageBus\Mango.MessageBus.csproj", "{EA944A20-2254-465A-AB23-98482ABC570E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.MessageBus", "Mango.MessageBus\Mango.MessageBus.csproj", "{EA944A20-2254-465A-AB23-98482ABC570E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.ShoppingCartAPI", "Mango.Services.ShoppingCartAPI\Mango.Services.ShoppingCartAPI.csproj", "{B3C7EF1B-F39E-48E7-BAF4-E9BC0DDD8B81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{EA944A20-2254-465A-AB23-98482ABC570E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA944A20-2254-465A-AB23-98482ABC570E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA944A20-2254-465A-AB23-98482ABC570E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C7EF1B-F39E-48E7-BAF4-E9BC0DDD8B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C7EF1B-F39E-48E7-BAF4-E9BC0DDD8B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C7EF1B-F39E-48E7-BAF4-E9BC0DDD8B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C7EF1B-F39E-48E7-BAF4-E9BC0DDD8B81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{39318CB3-B93F-4438-AE6C-FEA1024F7D5F} = {64500040-47DE-4148-9107-69565918CF38}
 		{E5FEDEF7-5E15-4F46-B19F-EB22D5E95118} = {64500040-47DE-4148-9107-69565918CF38}
 		{EA944A20-2254-465A-AB23-98482ABC570E} = {8EF56111-2229-474F-B80B-90147F440590}
+		{B3C7EF1B-F39E-48E7-BAF4-E9BC0DDD8B81} = {64500040-47DE-4148-9107-69565918CF38}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {60035E0A-0326-41E6-8C13-E2C7E90E9AFE}
