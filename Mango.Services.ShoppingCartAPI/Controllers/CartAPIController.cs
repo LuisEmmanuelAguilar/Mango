@@ -102,7 +102,8 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                     // check if details has same product
                     var cartDetailsFromDb = await _db.CartDetails
                         .AsNoTracking()
-                        .FirstOrDefaultAsync(u => u.ProductId == cartDto.CartDetails.First().ProductId && u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
+                        .FirstOrDefaultAsync(
+                        u => u.ProductId == cartDto.CartDetails.First().ProductId && u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
 
                     if(cartDetailsFromDb == null)
                     {
