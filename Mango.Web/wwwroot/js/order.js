@@ -2,22 +2,29 @@
 
 $(document).ready(function () {
     var url = window.location.search;
-    if (url.includes("approved")) {
-        loadDataTable("approved");
+    var status = "";
+
+    switch (true) {
+        case url.includes("approved"):
+            status = "approved";
+            break;
+        case url.includes("readyforpickup"):
+            status = "readyforpickup";
+            break;
+        case url.includes("cancelled"):
+            status = "cancelled";
+            break;
+        case url.includes("pending"):
+            status = "pending";
+            break;
+        case url.includes("completed"):
+            status = "completed";
+            break;
+        default:
+            status = "all";
     }
-    else {
-        if (url.includes("readyforpickup")) {
-            loadDataTable("readyforpickup");
-        }
-        else {
-            if (url.includes("cancelled")) {
-                loadDataTable("cancelled");
-            }
-            else {
-                loadDataTable("all");
-            }
-        }
-    }
+
+    loadDataTable(status);
 });
 
 function loadDataTable(status) {

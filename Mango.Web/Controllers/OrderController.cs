@@ -3,6 +3,7 @@ using Mango.Web.Service.IService;
 using Mango.Web.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -100,6 +101,12 @@ namespace Mango.Web.Controllers
 						break;
 					case "cancelled":
 						list = list.Where(u => u.Status == StandardDetails.Status_Cancelled || u.Status == StandardDetails.Status_Refunded);
+						break;
+					case "completed":
+						list = list.Where(u => u.Status == StandardDetails.Status_Completed);
+						break;
+					case "pending":
+						list = list.Where(u => u.Status == StandardDetails.Status_Pending);
 						break;
 					default:
 						break;
