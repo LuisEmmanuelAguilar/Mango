@@ -103,7 +103,7 @@ namespace Mango.Web.Controllers
         {
             ResponseDto? response = await _productService.GetProductByIdAsync(productId);
 
-            if(response != null && response.IsSuccess)
+            if (response != null && response.IsSuccess)
             {
                 ProductDto model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
 

@@ -3,6 +3,8 @@ using Mango.Services.ProductAPI.Data;
 using Mango.Services.ProductAPI.Models;
 using Mango.Services.ProductAPI.Models.Dto;
 using Mango.Services.ProductAPI.Models.Response;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -71,37 +73,36 @@ namespace Mango.Services.ProductAPI.Controllers
                 _db.Products.Add(product);
                 _db.SaveChanges();
 
-                //if (ProductDto.ImageUrl != null)
-                //{
-                //    string fileName = product.ProductId + Path.GetExtension(ProductDto.Image.FileName);
-                //    string filePath = @"wwwroot\Product\Images\" + fileName;
+                if (productDto.Image != null)
+                {
+                    string fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
+                    string filePath = @"wwwroot/ProductImages/" + fileName;
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                    FileInfo file = new FileInfo(filePathDirectory);
 
-                //    var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-                //    FileInfo file = new FileInfo(directoryLocation);
+                    //if (file.Exists)
+                    //{
+                    //    file.Delete();
+                    //}
 
-                //    if (file.Exists)
-                //    {
-                //        file.Delete();
-                //    }
+                    //var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
 
-                //    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-                    
-                //    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
-                //    {
-                //        ProductDto.Image.CopyTo(fileStream);
-                //    }
-                    
-                //    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
-                //    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
-                //    product.ImageLocalPath = filePath;
-                //}
-                //else
-                //{
-                //    product.ImageUrl = "https://placehold.co/600x400";
-                //}
+                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    {
+                        productDto.Image.CopyTo(fileStream);
+                    }
 
-                //_db.Products.Update(product);
-                //_db.SaveChanges();
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                    product.ImageLocalPath = filePath;
+                }
+                else
+                {
+                    product.ImageUrl = "https://placehold.co/600x400";
+                }
+
+                _db.Products.Update(product);
+                _db.SaveChanges();
                 _response.Result = _mapper.Map<ProductDto>(product);
             }
             catch (Exception ex)
@@ -114,36 +115,36 @@ namespace Mango.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
-        public ResponseDto UpdateProduct([FromBody] ProductDto productDto)
+        public ResponseDto UpdateProduct(ProductDto productDto)
         {
             try
             {
                 Product product = _mapper.Map<Product>(productDto);
-                
-                //if(ProductDto.Image != null)
-                //{
-                //    if (!string.IsNullOrEmpty(product.ImageLocalPath))
-                //    {
-                //        var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), product.ImageLocalPath);
-                //        FileInfo file = new FileInfo(oldFilePathDirectory);
-                //        if (file.Exists)
-                //        {
-                //            file.Delete();
-                //        }
-                //    }
 
-                //    string fileName = product.ProductId + Path.GetExtension(ProductDto.Image.FileName);
-                //    string filePath = @"wwwroot\ProductImages\" + fileName;
-                //    var fileePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-                //    using (var fileStream = new FileStream(fileePathDirectory, FileMode.Create))
-                //    {
-                //        ProductDto.Image.CopyTo(fileStream);
-                //    }
+                if (productDto.Image != null)
+                {
+                    if (!string.IsNullOrEmpty(product.ImageLocalPath))
+                    {
+                        var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), product.ImageLocalPath);
+                        FileInfo file = new FileInfo(oldFilePathDirectory);
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }
+                    }
 
-                //    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
-                //    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
-                //    product.ImageLocalPath = filePath;
-                //}
+                    string fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
+                    string filePath = @"wwwroot/ProductImages/" + fileName;
+                    var fileePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                    using (var fileStream = new FileStream(fileePathDirectory, FileMode.Create))
+                    {
+                        productDto.Image.CopyTo(fileStream);
+                    }
+
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
+                    product.ImageLocalPath = filePath;
+                }
 
                 _db.Products.Update(product);
                 _db.SaveChanges();
@@ -166,15 +167,15 @@ namespace Mango.Services.ProductAPI.Controllers
             try
             {
                 Product obj = _db.Products.First(u => u.ProductId == id);
-                //if (!string.IsNullOrEmpty(obj.ImageLocalPath))
-                //{
-                //    var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), obj.ImageLocalPath);
-                //    FileInfo file = new FileInfo(oldFilePathDirectory);
-                //    if (file.Exists)
-                //    {
-                //        file.Delete();
-                //    }
-                //}
+                if (!string.IsNullOrEmpty(obj.ImageLocalPath))
+                {
+                    var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), obj.ImageLocalPath);
+                    FileInfo file = new FileInfo(oldFilePathDirectory);
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+                }
 
                 _db.Products.Remove(obj);
                 _db.SaveChanges();
