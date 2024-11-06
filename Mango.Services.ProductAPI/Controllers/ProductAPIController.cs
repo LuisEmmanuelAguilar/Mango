@@ -4,10 +4,7 @@ using Mango.Services.ProductAPI.Models;
 using Mango.Services.ProductAPI.Models.Dto;
 using Mango.Services.ProductAPI.Models.Response;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Mango.Services.ProductAPI.Controllers
 {
@@ -65,33 +62,33 @@ namespace Mango.Services.ProductAPI.Controllers
 
 
         [HttpPost]
-        public ResponseDto CreateProduct([FromBody] ProductDto productDto)
+        [Authorize(Roles = "ADMIN")]
+        public ResponseDto Post(ProductDto ProductDto)
         {
             try
             {
-                Product product = _mapper.Map<Product>(productDto);
+                Product product = _mapper.Map<Product>(ProductDto);
                 _db.Products.Add(product);
                 _db.SaveChanges();
 
-                if (productDto.Image != null)
+                if (ProductDto.Image != null)
                 {
-                    string fileName = product.ProductId + Path.GetExtension(productDto.Image.FileName);
-                    string filePath = @"wwwroot/ProductImages/" + fileName;
-                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-                    FileInfo file = new FileInfo(filePathDirectory);
 
-                    //if (file.Exists)
-                    //{
-                    //    file.Delete();
-                    //}
+                    string fileName = product.ProductId + Path.GetExtension(ProductDto.Image.FileName);
+                    string filePath = @"wwwroot\ProductImages\" + fileName;
 
-                    //var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
-
-                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                    FileInfo file = new FileInfo(directoryLocation);
+                    if (file.Exists)
                     {
-                        productDto.Image.CopyTo(fileStream);
+                        file.Delete();
                     }
 
+                    var filePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+                    using (var fileStream = new FileStream(filePathDirectory, FileMode.Create))
+                    {
+                        ProductDto.Image.CopyTo(fileStream);
+                    }
                     var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
                     product.ImageUrl = baseUrl + "/ProductImages/" + fileName;
                     product.ImageLocalPath = filePath;
@@ -100,7 +97,6 @@ namespace Mango.Services.ProductAPI.Controllers
                 {
                     product.ImageUrl = "https://placehold.co/600x400";
                 }
-
                 _db.Products.Update(product);
                 _db.SaveChanges();
                 _response.Result = _mapper.Map<ProductDto>(product);
@@ -110,11 +106,12 @@ namespace Mango.Services.ProductAPI.Controllers
                 _response.IsSuccess = false;
                 _response.Message = ex.Message;
             }
-
             return _response;
         }
 
+
         [HttpPut]
+        [Authorize(Roles = "ADMIN")]
         public ResponseDto UpdateProduct(ProductDto productDto)
         {
             try
@@ -162,6 +159,7 @@ namespace Mango.Services.ProductAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "ADMIN")]
         public ResponseDto DeleteProduct(int id)
         {
             try
